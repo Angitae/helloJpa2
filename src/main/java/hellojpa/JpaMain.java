@@ -16,21 +16,16 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin(); // DB transaction start
         try{
-//            Member findMember = em.find(Member.class, 1L); // 단건 조회시 사용
-//            findMember.setName("kitae");
+            Member m1 = new Member(150L, "A");
+            Member m2 = new Member(160L, "B");
 
-            List<Member> result =
-                    em.createQuery("select m from Member as m", Member.class).getResultList();
-            // ㅇㅣ게 무슨 메리트가 있을까?
-            // 페이징을 할 때 페이지네이션
+            em.persist(m1);
+            em.persist(m2);
+            // 여기까지 Insert SQL을 보내지 않음
+            // 쓰기 지연 SQL 저장소에 보관하다가
+            // 트랜잭션이 커밋되는 순간
+            // flush 되면서 insert SQL문장들 나감
 
-            for(Member member : result){
-                System.out.println("Member.name = " + member.getName());
-            }
-
-            // JAVA객체에서 값만 바꿨는데 어떻게 DB에 접근해서 값을 바꿨지?
-            // JPA를 통해서 Entity를 가져오면 관리를 함.
-            // 트랜잭션 시점에 확인해서 쿼리 수행
             tx.commit();
         }catch(Exception e){
             tx.rollback();
