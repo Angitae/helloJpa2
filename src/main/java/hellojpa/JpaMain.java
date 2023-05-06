@@ -37,7 +37,7 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            Team findTeam = em.find(Team.class, team.getId());
+            Team findTeam = em.find(Team.class, team.getId()); // 1차 캐시에 존재
             List<Member> members = findTeam.getMembers();
             
             for(Member m : members){
