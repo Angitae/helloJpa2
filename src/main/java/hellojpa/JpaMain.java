@@ -22,6 +22,8 @@ public class JpaMain {
 
             Team team = new Team();
             team.setName("NameA");
+
+            // 역방향(주인이 아닌 방향)만 연관관계 설정
 //            team.getMembers().add(member);
             em.persist(team);
 
