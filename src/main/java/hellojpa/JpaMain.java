@@ -27,15 +27,17 @@ public class JpaMain {
 //            team.getMembers().add(member);
             em.persist(team);
 
-
             Member member = new Member();
             member.setUsername("member1");
-            member.setTeam(team); // 연관관계의 주인에게 setting하는게 중요
+            member.setTeam(team); // 연관관계의 주인에게 setting하는게 중요 // ****
 //            member.setTeam(team);
             em.persist(member);
 
-            em.flush();
-            em.clear();
+
+            team.getMembers().add(member); // **** 위 라인과 한 셋(양방향 연관관계시 주의해야 할 점)
+
+//            em.flush();
+//            em.clear();
 
             Team findTeam = em.find(Team.class, team.getId()); // 1차 캐시에 존재
             List<Member> members = findTeam.getMembers();
@@ -43,9 +45,6 @@ public class JpaMain {
             for(Member m : members){
                 System.out.println("m.getUsername() = " + m.getUsername());
             }
-
-            em.flush();
-            em.clear();
 
             tx.commit();
         }catch(Exception e){
