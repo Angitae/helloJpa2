@@ -16,15 +16,25 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin(); // DB transaction start
         try{
-            Member m1 = new Member(150L, "A");
-            Member m2 = new Member(160L, "B");
 
-            em.persist(m1);
-            em.persist(m2);
-            // 여기까지 Insert SQL을 보내지 않음
-            // 쓰기 지연 SQL 저장소에 보관하다가
-            // 트랜잭션이 커밋되는 순간
-            // flush 되면서 insert SQL문장들 나감
+            //저장
+
+
+            Team team = new Team();
+            team.setName("NameA");
+//            team.getMembers().add(member);
+            em.persist(team);
+
+
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setTeam(team); // 연관관계의 주인에게 setting하는게 중요
+//            member.setTeam(team);
+            em.persist(member);
+
+
+            em.flush();
+            em.clear();
 
             tx.commit();
         }catch(Exception e){
