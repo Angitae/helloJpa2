@@ -19,6 +19,11 @@ public class Team {
         return id;
     }
 
+    public void addMember(Member member){
+        member.setTeam(this);
+        members.add(member);
+    }
+
     public void setId(Long id){
         this.id = id;
     }

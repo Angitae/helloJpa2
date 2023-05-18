@@ -16,35 +16,19 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin(); // DB transaction start
         try{
+            Movie movie = new Movie();
+            movie.setDirector("kitae");
+            movie.setActor("yj");
+            movie.setName("Love");
+            movie.setPrice(1000000);
 
-            //저장
+            em.persist(movie);
 
+            em.flush();
+            em.clear();
 
-            Team team = new Team();
-            team.setName("NameA");
-
-            // 역방향(주인이 아닌 방향)만 연관관계 설정
-//            team.getMembers().add(member);
-            em.persist(team);
-
-            Member member = new Member();
-            member.setUsername("member1");
-            member.setTeam(team); // 연관관계의 주인에게 setting하는게 중요 // ****
-//            member.setTeam(team);
-            em.persist(member);
-
-
-            team.getMembers().add(member); // **** 위 라인과 한 셋(양방향 연관관계시 주의해야 할 점)
-
-//            em.flush();
-//            em.clear();
-
-            Team findTeam = em.find(Team.class, team.getId()); // 1차 캐시에 존재
-            List<Member> members = findTeam.getMembers();
-            
-            for(Member m : members){
-                System.out.println("m.getUsername() = " + m.getUsername());
-            }
+            Movie findMovie = em.find(Movie.class, movie.getId());
+            System.out.println("findMovie = " + findMovie);
 
             tx.commit();
         }catch(Exception e){

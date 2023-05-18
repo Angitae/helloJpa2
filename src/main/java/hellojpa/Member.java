@@ -18,6 +18,10 @@ public class Member {
     @JoinColumn(name="TEAM_ID")
     private Team team;
 
+    @OneToOne
+    @JoinColumn(name="LOCKER_ID")
+    private Locker locker;
+
     public Long getID() { return id;}
 
     public void setID(Long id) {this.id = id;}
@@ -26,7 +30,9 @@ public class Member {
 
     public void setUsername(String username) {this.username = username;}
 
-    public void setTeam(Team team){ this.team = team;}
+    public void setTeam(Team team){
+        this.team = team;
+    }
 
     public Team getTeam(){ return team;
     }
